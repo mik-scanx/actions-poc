@@ -17,7 +17,7 @@ on:
         description: 'Run Job 1?'
         default: true
         required: true
-        type: choice
+        type: boolean
         options:
         - true
         - false
@@ -25,7 +25,7 @@ on:
         description: 'Run Job 2?'
         default: false
         required: true
-        type: choice
+        type: boolean
         options:
         - true
         - false
@@ -33,7 +33,7 @@ on:
         description: 'Run Job 3?'
         default: false
         required: true
-        type: choice
+        type: boolean
         options:
         - true
         - false
@@ -57,7 +57,7 @@ on:
 
 jobs:
   job-one:
-    if: inputs.job-one
+    if: inputs.job-one == true
     runs-on: ubuntu-latest
     steps:
       - name: Job One
@@ -66,7 +66,7 @@ jobs:
           echo "job-one successful!"
   
   job-two:
-    if: inputs.job-two
+    if: inputs.job-two == true
     runs-on: ubuntu-latest
     steps:
       - name: Job One
@@ -75,7 +75,7 @@ jobs:
           echo "job-two successful!"
 
   job-three:
-    if: inputs.job-three
+    if: inputs.job-three == true
     runs-on: ubuntu-latest
     steps:
       - name: Job One
