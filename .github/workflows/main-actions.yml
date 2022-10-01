@@ -12,10 +12,6 @@ on:
         - nonprod
         - staging
         - prod
-      env:
-        description: 'Environment to run tests against'
-        type: environment
-        required: true
 
 jobs:
   first-job:
@@ -25,4 +21,4 @@ jobs:
       - name: Print the input name to STDOUT
         run: |
           echo "The environment is ${{ inputs.environment }}"
-          echo "env: ${{ inputs.env }}"
+          echo "first-job successful!"
