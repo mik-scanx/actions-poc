@@ -61,5 +61,14 @@ jobs:
         run: |
           echo "Running release, this is considered as a production env"
           echo "Release job successful!"
+      
+  call-release-job2:
+    needs: release-job
+    uses: ./.github/workflows/second-actions.yml
+    with:
+      environment: prod
+      job-one: true
+      job-two: true
+      job-three: true
 
 
