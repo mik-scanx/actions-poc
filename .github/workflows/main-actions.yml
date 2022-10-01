@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print the input name to STDOUT (published-release)
-        if: github.event.release.prerelease == false
+        if: github.event.release != '' && github.event.release.prerelease == false
         run: |
           echo "The environment is PRODUCTION"
           echo "first-job (prod) successful!"
