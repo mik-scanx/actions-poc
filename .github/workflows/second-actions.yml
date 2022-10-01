@@ -1,4 +1,4 @@
-name: main-actions
+name: second-actions
 run-name: ${{ github.actor }} is running the main Github Action
 
 on: 
