@@ -20,18 +20,29 @@ jobs:
   first-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Print the input name to STDOUT
+      - name: Print the input name to STDOUT (published-release)
+        if: !github.event.release.prerelease
+        run: |
+          echo "The environment is PRODUCTION"
+          echo "first-job (prod) successful!"
+      - name: Print the input name to STDOUT (published-pre-release)
+        if: github.event.release.prerelease
+        run: |
+          echo "The environment is NONPROD"
+          echo "first-job (nonprod) successful!"
+      - name: Print the input name to STDOUT (manual-workflow-dispatch)
+        if: github.event.release == ''
         run: |
           echo "The environment is ${{ inputs.environment }}"
           echo "first-job successful!"
 
   pre-release-job:
-    if: "github.event.release.prerelease"
+    if: github.event.release.prerelease
     runs-on: ubuntu-latest
     steps:
       - name: Run the job for tags with pre-release
         run: |
           echo "Running pre-release, this is considered as a nonprod env"
-          echo "first-job successful!"
+          echo "pre-release job successful!"
 
 
