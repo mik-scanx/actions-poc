@@ -43,6 +43,24 @@ jobs:
       - name: Run the job for tags with pre-release
         run: |
           echo "Running pre-release, this is considered as a nonprod env"
-          echo "pre-release job successful!"
+          echo "Pre-release job successful!"
+  call-pre-release-job2:
+    needs: pre-release-job
+    runs-on: ubuntu-latest
+    uses: ./.github/workflows/second-actions.yml
+    with:
+      environment: nonprod
+      job-one: true
+      job-two: false
+      job-three: false
+
+  release-job:
+    if: github.event.release != '' && github.event.release.prerelease == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run the job for tags with release
+        run: |
+          echo "Running release, this is considered as a production env"
+          echo "Release job successful!"
 
 

@@ -69,7 +69,7 @@ jobs:
     if: inputs.job-two == true
     runs-on: ubuntu-latest
     steps:
-      - name: Job One
+      - name: Job Two
         run: |
           echo "The environment is ${{ inputs.environment }}"
           echo "job-two successful!"
@@ -78,7 +78,7 @@ jobs:
     if: inputs.job-three == true
     runs-on: ubuntu-latest
     steps:
-      - name: Job One
+      - name: Job Three
         run: |
           echo "The environment is ${{ inputs.environment }}"
           echo "job-one successful!"
