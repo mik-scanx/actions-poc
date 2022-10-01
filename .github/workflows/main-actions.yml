@@ -1,0 +1,28 @@
+name: main-actions
+run-name: $ {{ github.actor }} is running the main Github Action
+on: 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        default: 'nonprod'
+        required: true
+        type: choice
+        options:
+        - nonprod
+        - staging
+        - prod
+      env:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print the input name to STDOUT
+        run: |
+          echo "The environment is ${{ inputs.environment }}"
+          echo "env: ${{ inputs.env }}"
