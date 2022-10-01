@@ -1,0 +1,84 @@
+name: main-actions
+run-name: ${{ github.actor }} is running the main Github Action
+
+on: 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        default: 'nonprod'
+        required: true
+        type: choice
+        options:
+        - nonprod
+        - staging
+        - prod
+      job-one:
+        description: 'Run Job 1?'
+        default: true
+        required: true
+        type: choice
+        options:
+        - true
+        - false
+      job-two:
+        description: 'Run Job 2?'
+        default: false
+        required: true
+        type: choice
+        options:
+        - true
+        - false
+      job-three:
+        description: 'Run Job 3?'
+        default: false
+        required: true
+        type: choice
+        options:
+        - true
+        - false
+
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      job-one:
+        required: true
+        type: boolean
+      job-two:
+        required: true
+        type: boolean
+      job-three:
+        required: true
+        type: boolean
+  
+
+
+jobs:
+  job-one:
+    if: inputs.job-one
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job One
+        run: |
+          echo "The environment is ${{ inputs.environment }}"
+          echo "job-one successful!"
+  
+  job-two:
+    if: inputs.job-two
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job One
+        run: |
+          echo "The environment is ${{ inputs.environment }}"
+          echo "job-two successful!"
+
+  job-three:
+    if: inputs.job-three
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job One
+        run: |
+          echo "The environment is ${{ inputs.environment }}"
+          echo "job-one successful!"
