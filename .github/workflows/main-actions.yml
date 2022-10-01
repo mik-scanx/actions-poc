@@ -24,25 +24,33 @@ jobs:
         if: github.event.release != '' && github.event.release.prerelease == false
         run: |
           echo "The environment is PRODUCTION"
+          # Print release / tag
+          echo ${GITHUB_REF/refs\/tags\//}
           echo "first-job (prod) successful!"
       - name: Print the input name to STDOUT (published-pre-release)
         if: github.event.release.prerelease
         run: |
           echo "The environment is NONPROD"
+          # Print release / tag
+          echo ${GITHUB_REF/refs\/tags\//}
           echo "first-job (nonprod) successful!"
       - name: Print the input name to STDOUT (manual-workflow-dispatch)
         if: github.event.release == ''
         run: |
           echo "The environment is ${{ inputs.environment }}"
+          # Print release / tag
+          echo ${GITHUB_REF/refs\/tags\//}
           echo "first-job successful!"
 
   pre-release-job:
     if: github.event.release.prerelease
     runs-on: ubuntu-latest
     steps:
-      - name: Run the job for tags with pre-release
+      - name: Run the job for tags with pre-release published
         run: |
           echo "Running pre-release, this is considered as a nonprod env"
+          # Print release / tag
+          echo ${GITHUB_REF/refs\/tags\//}
           echo "Pre-release job successful!"
   call-pre-release-job2:
     needs: pre-release-job
@@ -57,9 +65,11 @@ jobs:
     if: github.event.release != '' && github.event.release.prerelease == false
     runs-on: ubuntu-latest
     steps:
-      - name: Run the job for tags with release
+      - name: Run the job for tags with release published
         run: |
           echo "Running release, this is considered as a production env"
+          # Print release / tag
+          echo ${GITHUB_REF/refs\/tags\//}
           echo "Release job successful!"
       
   call-release-job2:
