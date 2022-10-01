@@ -1,5 +1,5 @@
 name: main-actions
-run-name: $ {{ github.actor }} is running the main Github Action
+run-name: ${{ github.actor }} is running the main Github Action
 on: 
   workflow_dispatch:
     inputs:
@@ -13,12 +13,25 @@ on:
         - staging
         - prod
 
+  release:
+    types: [published]
+
 jobs:
   first-job:
     runs-on: ubuntu-latest
-
     steps:
       - name: Print the input name to STDOUT
         run: |
           echo "The environment is ${{ inputs.environment }}"
           echo "first-job successful!"
+
+  pre-release-job:
+    if: "github.event.release.prerelease"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run the job for tags with pre-release
+        run: |
+          echo "Running pre-release, this is considered as a nonprod env"
+          echo "first-job successful!"
+
+
