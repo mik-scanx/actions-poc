@@ -46,7 +46,6 @@ jobs:
           echo "Pre-release job successful!"
   call-pre-release-job2:
     needs: pre-release-job
-    runs-on: ubuntu-latest
     uses: ./.github/workflows/second-actions.yml
     with:
       environment: nonprod
