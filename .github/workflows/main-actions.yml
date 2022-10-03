@@ -5,7 +5,7 @@ on:
     inputs:
       environment:
         description: 'Select environment'
-        default: 'nonprod'
+        default: nonprod
         required: true
         type: choice
         options:
@@ -21,14 +21,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print the input name to STDOUT (published-release)
-        if: (github.event.release != '' && github.event.release.prerelease == false) || inputs.environment == 'prod'
+        if: (github.event.release != '' && github.event.release.prerelease == false) || inputs.environment == prod
         run: |
           echo "The environment is PRODUCTION"
           # Print release / tag
           echo ${GITHUB_REF/refs\/tags\//}
           echo "first-job (prod) successful!"
       - name: Print the input name to STDOUT (published-pre-release)
-        if: github.event.release.prerelease || inputs.environment == 'nonprod'
+        if: github.event.release.prerelease || inputs.environment == nonprod
         run: |
           echo "The environment is NONPROD"
           # Print release / tag
