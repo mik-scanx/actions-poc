@@ -21,14 +21,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print the input name to STDOUT (published-release)
-        if: github.event.release != '' && github.event.release.prerelease == false
+        if: (github.event.release != '' && github.event.release.prerelease == false) || inputs.environment == 'prod'
         run: |
           echo "The environment is PRODUCTION"
           # Print release / tag
           echo ${GITHUB_REF/refs\/tags\//}
           echo "first-job (prod) successful!"
       - name: Print the input name to STDOUT (published-pre-release)
-        if: github.event.release.prerelease
+        if: github.event.release.prerelease || inputs.environment == 'nonprod'
         run: |
           echo "The environment is NONPROD"
           # Print release / tag
@@ -43,7 +43,7 @@ jobs:
           echo "first-job successful!"
 
   pre-release-job:
-    if: github.event.release.prerelease
+    if: github.event.release.prerelease || inputs.environment == 'nonprod'
     runs-on: ubuntu-latest
     steps:
       - name: Run the job for tags with pre-release published
@@ -56,7 +56,7 @@ jobs:
     needs: pre-release-job
     uses: ./.github/workflows/second-actions.yml
     with:
-      environment: nonprod
+      environment: inputs.environment
       job-one: true
       job-two: false
       job-three: false
