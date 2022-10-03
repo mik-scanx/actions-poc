@@ -5,12 +5,12 @@ on:
     inputs:
       environment:
         description: 'Select environment'
-        default: nonprod
+        default: 'nonprod'
         required: true
-        type: string
+        type: choice
         options:
-        - nonprod
-        - prod
+        - 'nonprod'
+        - 'prod'
 
   release:
     types: [published]
@@ -55,7 +55,7 @@ jobs:
     needs: pre-release-job
     uses: ./.github/workflows/second-actions.yml
     with:
-      environment: inputs.environment
+      environment: ${{ inputs.environment }}
       job-one: true
       job-two: false
       job-three: false
