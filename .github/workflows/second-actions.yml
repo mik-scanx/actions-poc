@@ -48,13 +48,18 @@ on:
 
 jobs:
   job-one:
-    if: inputs.job-one == true && inputs.environment == 'nonprod'
+    if: inputs.job-one == true
     runs-on: ubuntu-latest
     steps:
       - name: Job One
         run: |
           echo "The environment is ${{ inputs.environment }}"
           echo "job-one successful!"
+      - name: Job One (Nonproduction)
+        if: inputs.environment == 'nonprod'
+        run: |
+          echo "The environment is ${{ inputs.environment }}"
+          echo "Last Step for ${{ inputs.environment }}!"
   
   job-two:
     if: inputs.job-two == true
