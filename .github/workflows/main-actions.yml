@@ -51,11 +51,16 @@ jobs:
           # Print release / tag
           echo ${GITHUB_REF/refs\/tags\//}
           echo "Pre-release job successful!"
-      - name: Set deploy environment variable
-        id: deploy-environment
-        run: echo '::set-output name=ENVIRONMENT::${{ inputs.environment }}'
+      - name: Set deploy environment variable nonprod
+        if: github.event.release.prerelease || inputs.environment == 'nonprod'
+        id: deploy-env-nonprod
+        run: echo '::set-output name=ENVIRONMENT::nonprod'
+      - name: Set deploy environment variable prod
+        if: github.event.release.prerelease || inputs.environment == 'prod'
+        id: deploy-env-prod
+        run: echo '::set-output name=ENVIRONMENT::prod'
     outputs:
-      environment: ${{ steps.deploy-environment.outputs.ENVIRONMENT }}
+      environment: ${{ steps.deploy-env-nonprod.outputs.ENVIRONMENT || steps.deploy-env-prod.outputs.ENVIRONMENT }}
         
   call-pre-release-job2:
     needs: pre-release-job
@@ -76,6 +81,16 @@ jobs:
           # Print release / tag
           echo ${GITHUB_REF/refs\/tags\//}
           echo "Release job successful!"
+      - name: Set deploy environment variable nonprod
+        if: github.event.release.prerelease || inputs.environment == 'nonprod'
+        id: deploy-env-nonprod
+        run: echo '::set-output name=ENVIRONMENT::nonprod'
+      - name: Set deploy environment variable prod
+        if: github.event.release.prerelease || inputs.environment == 'prod'
+        id: deploy-env-prod
+        run: echo '::set-output name=ENVIRONMENT::prod'
+    outputs:
+      environment: ${{ steps.deploy-env-nonprod.outputs.ENVIRONMENT || steps.deploy-env-prod.outputs.ENVIRONMENT }}
       
   call-release-job2:
     needs: release-job
