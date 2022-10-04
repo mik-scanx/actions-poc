@@ -54,12 +54,14 @@ jobs:
       - name: Set deploy environment variable
         id: deploy-environment
         run: echo '::set-output name=ENVIRONMENT::${{ inputs.environment }}'
+    outputs:
+      environment: ${{ steps.deploy-environment.outputs.ENVIRONMENT }}
         
   call-pre-release-job2:
     needs: pre-release-job
     uses: ./.github/workflows/second-actions.yml
     with:
-      environment: ${{ steps.deploy-environment.outputs.ENVIRONMENT }}
+      environment: ${{ needs.pre-release-job.outputs.environment }}
       job-one: true
       job-two: false
       job-three: false
