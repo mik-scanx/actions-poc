@@ -18,25 +18,16 @@ on:
         default: true
         required: true
         type: boolean
-        options:
-        - true
-        - false
       job-two:
         description: 'Run Job 2?'
         default: false
         required: true
         type: boolean
-        options:
-        - true
-        - false
       job-three:
         description: 'Run Job 3?'
         default: false
         required: true
         type: boolean
-        options:
-        - true
-        - false
 
   workflow_call:
     inputs:
@@ -57,7 +48,7 @@ on:
 
 jobs:
   job-one:
-    if: inputs.job-one == true
+    if: inputs.job-one == true && inputs.environment == 'nonprod'
     runs-on: ubuntu-latest
     steps:
       - name: Job One
