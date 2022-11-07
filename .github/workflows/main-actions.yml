@@ -54,11 +54,13 @@ jobs:
       - name: Set deploy environment variable nonprod
         if: github.event.release.prerelease || inputs.environment == 'nonprod'
         id: deploy-env-nonprod
-        run: echo '::set-output name=ENVIRONMENT::nonprod'
+        #run: echo '::set-output name=ENVIRONMENT::nonprod'
+        run: echo "ENVIRONMENT=nonprod" >> $GITHUB_OUTPUT
       - name: Set deploy environment variable prod
         if: inputs.environment == 'prod'
         id: deploy-env-prod
-        run: echo '::set-output name=ENVIRONMENT::prod'
+        #run: echo '::set-output name=ENVIRONMENT::prod'
+        run: echo "ENVIRONMENT=prod" >> $GITHUB_OUTPUT
     outputs:
       environment: ${{ steps.deploy-env-nonprod.outputs.ENVIRONMENT || steps.deploy-env-prod.outputs.ENVIRONMENT }}
         
